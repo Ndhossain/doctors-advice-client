@@ -7,7 +7,9 @@ function Layout() {
     return (
         <>
             <Navbar />
-            <Outlet />
+            <main className="container mx-auto min-h-screen">
+                <Outlet />
+            </main>
             <Footer />
         </>
     );
