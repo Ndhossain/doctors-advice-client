@@ -6,7 +6,7 @@ function BannerSection() {
     return (
         <div
             role="status"
-            className="space-y-8 md:space-y-0 md:space-x-8 flex flex-col-reverse md:flex-row justify-between items-center mt-10 p-5 md:p-8 min-h-[700px] bg-no-repeat"
+            className="space-y-8 md:space-y-0 md:space-x-8 flex flex-col-reverse md:flex-row justify-between items-center mt-10 p-3 md:p-8 min-h-[700px] bg-no-repeat"
             style={{ backgroundImage: `url(${bannerBg})`, backgroundSize: '700px 100%' }}
         >
             <div>
@@ -19,7 +19,7 @@ function BannerSection() {
                 </p>
                 <button
                     type="button"
-                    className="text-white bg-gradient-to-r from-primary to-secondary hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5"
+                    className="text-white bg-gradient-to-r from-secondary to-primary hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5"
                 >
                     Get Started
                 </button>
