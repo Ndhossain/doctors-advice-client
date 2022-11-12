@@ -9,7 +9,7 @@ function InfoSection() {
         {
             id: 1,
             title: 'Opening Hours',
-            text: '8am - 5pm',
+            text: 'Sun-Thu (8am-5pm)',
             img: info1,
             classes: 'bg-gradient-to-r from-secondary to-primary',
         },

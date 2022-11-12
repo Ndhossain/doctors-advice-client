@@ -24,7 +24,7 @@ function BannerSection() {
                     Get Started
                 </button>
             </div>
-            <div className="">
+            <div>
                 <img src={bannerImage} alt="Banner" />
             </div>
             <span className="sr-only">Loading...</span>

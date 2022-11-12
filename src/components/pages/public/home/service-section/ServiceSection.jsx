@@ -29,7 +29,7 @@ function ServiceSection() {
         <div className="mt-10">
             <div>
                 <h5 className="text-lg text-center font-bold text-secondary">OUR SERVICES</h5>
-                <h2 className="text-4xl text-center font-bold text-headingCol dark:text-white">
+                <h2 className="text-4xl text-center font-bold text-headingCol dark:text-white mt-5">
                     Services We Provide
                 </h2>
             </div>
