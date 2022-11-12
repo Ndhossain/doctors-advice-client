@@ -1,9 +1,10 @@
 import React from 'react';
+import BannerSection from './banner-section/BannerSection';
 
 function Home() {
     return (
         <div>
-            <h1>This is home page</h1>
+            <BannerSection />
         </div>
     );
 }
