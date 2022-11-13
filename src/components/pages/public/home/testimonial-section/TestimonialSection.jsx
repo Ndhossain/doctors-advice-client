@@ -36,9 +36,9 @@ function TestimonialSection() {
         >
             <div>
                 <h5 className="text-lg font-bold text-secondary">Testimonial</h5>
-                <h5 className="mt-5 mb-2 text-4xl font-bold tracking-tight text-headingCol dark:text-white">
+                <h2 className="mt-5 mb-2 text-4xl font-bold tracking-tight text-headingCol dark:text-white">
                     What Our Patient Says
-                </h5>
+                </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-7 mt-20">
                 {review.map((rev) => (
