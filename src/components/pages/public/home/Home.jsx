@@ -4,6 +4,7 @@ import BannerSection from './banner-section/BannerSection';
 import InfoSection from './info-section/InfoSection';
 import ServiceSection from './service-section/ServiceSection';
 import SomethingUsSection from './something-us-section/SomethingUsSection';
+import TestimonialSection from './testimonial-section/TestimonialSection';
 
 function Home() {
     return (
@@ -13,6 +14,7 @@ function Home() {
             <ServiceSection />
             <SomethingUsSection />
             <AppointmentSection />
+            <TestimonialSection />
         </div>
     );
 }
