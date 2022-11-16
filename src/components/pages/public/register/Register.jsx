@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useAuth from '../../../../hooks/useAuth';
 import SocialLogin from '../../../common/SocialLogin';
 
 function Register() {
+    const [error, setError] = useState(null);
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const { registerUser, loading, setLoading, currentUser } = useAuth();
+
+    console.log(currentUser);
+    console.log(loading);
 
     // api: acf316b2a957b87a86f3e1abcff19ddc
     // url: https://api.imgbb.com/1/upload
 
     const onSubmit = async (data) => {
         try {
-            console.log(data.userImage[0]);
+            setError(null);
             const formData = new FormData();
             formData.append('image', data.userImage[0]);
             const res = await fetch(
@@ -25,9 +31,11 @@ function Register() {
                 }
             );
             const imgbbData = await res.json();
-            console.log(imgbbData);
+            await registerUser(data.email, data.password, data.name, imgbbData.data.display_url);
         } catch (err) {
             console.log(err);
+            setError(err.message);
+            setLoading(false);
         }
     };
 
@@ -40,6 +48,7 @@ function Register() {
                 <h2 className="text-3xl text-center font-semibold text-secondary mb-6">
                     Register Now
                 </h2>
+                {error && <p className="mb-6 text-sm text-red-600 dark:text-red-500">{error}</p>}
                 <div className="mb-6">
                     <label
                         htmlFor="username-success"
@@ -97,7 +106,7 @@ function Register() {
                     />
                     {errors.name && (
                         <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                            {errors.name?.message}
+                            {errors.userImage?.message}
                         </p>
                     )}
                 </div>
@@ -126,7 +135,7 @@ function Register() {
                     />
                     {errors.email && (
                         <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                            {errors.name?.message}
+                            {errors.email?.message}
                         </p>
                     )}
                 </div>
@@ -158,7 +167,7 @@ function Register() {
                     />
                     {errors.password && (
                         <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                            {errors.name?.message}
+                            {errors.password?.message}
                         </p>
                     )}
                 </div>
@@ -166,6 +175,7 @@ function Register() {
                     <button
                         type="submit"
                         className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-full"
+                        disabled={loading}
                     >
                         Register
                     </button>
@@ -177,7 +187,7 @@ function Register() {
                         Or
                     </span>
                 </div>
-                <SocialLogin />
+                <SocialLogin setError={setError} />
             </form>
         </div>
     );

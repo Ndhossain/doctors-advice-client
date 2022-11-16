@@ -12,7 +12,7 @@ function AppointmentDetails({ selectedDate }) {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: 'appointmentOptions.json',
+            url: `${process.env.REACT_APP_devUrl}/appointments`,
         })
             .then((res) => {
                 setServiceData(res.data);

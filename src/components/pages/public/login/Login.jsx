@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useAuth from '../../../../hooks/useAuth';
 import SocialLogin from '../../../common/SocialLogin';
 
 function Login() {
@@ -8,10 +9,18 @@ function Login() {
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const { loginUser, loading, setLoading } = useAuth();
+    const [error, setError] = useState(null);
 
-    const onSubmit = (data) => {
-        console.log(data);
-        console.log(errors);
+    const onSubmit = async (data) => {
+        try {
+            setError(null);
+            await loginUser(data.email, data.password);
+        } catch (err) {
+            console.log(err);
+            setError(err.message);
+            setLoading(false);
+        }
     };
 
     return (
@@ -23,6 +32,7 @@ function Login() {
                 <h2 className="text-3xl text-center font-semibold text-secondary mb-6">
                     Login Now
                 </h2>
+                {error && <p className="mb-6 text-sm text-red-600 dark:text-red-500">{error}</p>}
                 <div className="mb-6">
                     <label
                         htmlFor="username-error"
@@ -88,6 +98,7 @@ function Login() {
                     <button
                         type="submit"
                         className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-full"
+                        disabled={loading}
                     >
                         Log In
                     </button>
@@ -99,7 +110,7 @@ function Login() {
                         Or
                     </span>
                 </div>
-                <SocialLogin />
+                <SocialLogin setError={setError} />
             </form>
         </div>
     );
