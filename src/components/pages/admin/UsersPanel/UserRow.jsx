@@ -25,9 +25,9 @@ function UserRow({ user, handleAdmin }) {
             <td className="py-4 px-6">
                 <button
                     type="button"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    className="text-white bg-secondary font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2"
                 >
-                    Edit
+                    Delete
                 </button>
             </td>
         </tr>

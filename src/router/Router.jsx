@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import AdminRoute from '../components/pages/admin/admin-route/AdminRoute';
 import MyAppointments from '../components/pages/admin/my-appointments/MyAppointments';
 import UsersPanel from '../components/pages/admin/UsersPanel/UsersPanel';
 import PrivateRoute from '../components/pages/private/PrivateRoute';
@@ -46,7 +47,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/users',
-                element: <UsersPanel />,
+                element: (
+                    <AdminRoute>
+                        <UsersPanel />
+                    </AdminRoute>
+                ),
             },
         ],
     },

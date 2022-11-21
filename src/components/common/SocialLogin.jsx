@@ -1,5 +1,5 @@
 import { GoogleAuthProvider } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsGithub, BsGoogle, BsTwitter } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
@@ -10,14 +10,19 @@ function SocialLogin({ setError }) {
     const navigate = useNavigate();
     const { providerLogin } = useAuth();
     const googleProvider = new GoogleAuthProvider();
-    useToken(loginUid);
+    const { token } = useToken(loginUid);
+
+    useEffect(() => {
+        if (token) {
+            navigate('/');
+        }
+    }, [navigate, token]);
 
     const googleLogin = async () => {
         try {
             setError(null);
             const res = await providerLogin(googleProvider);
             setLoginUid(res.user.uid);
-            navigate('/');
         } catch (err) {
             console.log(err);
             setError(err.message);
