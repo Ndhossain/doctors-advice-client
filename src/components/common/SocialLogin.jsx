@@ -1,16 +1,23 @@
 import { GoogleAuthProvider } from 'firebase/auth';
-import React from 'react';
+import React, { useState } from 'react';
 import { BsGithub, BsGoogle, BsTwitter } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import useToken from '../../hooks/useToken';
 
 function SocialLogin({ setError }) {
+    const [loginUid, setLoginUid] = useState('');
+    const navigate = useNavigate();
     const { providerLogin } = useAuth();
     const googleProvider = new GoogleAuthProvider();
+    useToken(loginUid);
 
     const googleLogin = async () => {
         try {
             setError(null);
-            await providerLogin(googleProvider);
+            const res = await providerLogin(googleProvider);
+            setLoginUid(res.user.uid);
+            navigate('/');
         } catch (err) {
             console.log(err);
             setError(err.message);

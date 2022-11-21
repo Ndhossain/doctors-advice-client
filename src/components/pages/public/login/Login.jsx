@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../../hooks/useAuth';
+import useToken from '../../../../hooks/useToken';
 import SocialLogin from '../../../common/SocialLogin';
 
 function Login() {
+    const [loginUid, setLoginUid] = useState('');
     const {
         register,
         handleSubmit,
@@ -11,11 +13,13 @@ function Login() {
     } = useForm();
     const { loginUser, loading, setLoading } = useAuth();
     const [error, setError] = useState(null);
+    useToken(loginUid);
 
     const onSubmit = async (data) => {
         try {
             setError(null);
-            await loginUser(data.email, data.password);
+            const res = await loginUser(data.email, data.password);
+            setLoginUid(res.user.uid);
         } catch (err) {
             console.log(err);
             setError(err.message);

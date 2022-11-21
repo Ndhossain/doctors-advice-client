@@ -1,19 +1,20 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../../hooks/useAuth';
+import useToken from '../../../../hooks/useToken';
 import SocialLogin from '../../../common/SocialLogin';
 
 function Register() {
+    const [loginUid, setLoginUid] = useState('');
     const [error, setError] = useState(null);
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const { registerUser, loading, setLoading, currentUser } = useAuth();
-
-    console.log(currentUser);
-    console.log(loading);
+    const { registerUser, loading, setLoading } = useAuth();
+    useToken(loginUid);
 
     // api: acf316b2a957b87a86f3e1abcff19ddc
     // url: https://api.imgbb.com/1/upload
@@ -31,7 +32,22 @@ function Register() {
                 }
             );
             const imgbbData = await res.json();
-            await registerUser(data.email, data.password, data.name, imgbbData.data.display_url);
+            const userRes = await registerUser(
+                data.email,
+                data.password,
+                data.name,
+                imgbbData.data.display_url
+            );
+            await axios({
+                method: 'POST',
+                url: `${process.env.REACT_APP_devUrl}/users`,
+                data: {
+                    name: userRes.user.displayName,
+                    email: userRes.user.email,
+                    uid: userRes.user.uid,
+                },
+            });
+            setLoginUid(userRes.user.uid);
         } catch (err) {
             console.log(err);
             setError(err.message);

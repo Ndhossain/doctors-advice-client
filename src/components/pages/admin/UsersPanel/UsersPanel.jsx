@@ -2,21 +2,40 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
 import useAuth from '../../../../hooks/useAuth';
-import AppointmentRow from './AppointmentRow';
+import UserRow from './UserRow';
 
-function MyAppointments() {
-    const { currentUser } = useAuth();
-    const { data: bookingData, isLoading } = useQuery({
-        queryKey: ['bookings', currentUser?.uid],
+function UsersPanel() {
+    const {
+        data: users,
+        isLoading,
+        refetch,
+    } = useQuery({
+        queryKey: ['users'],
         queryFn: () =>
             axios({
                 method: 'GET',
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`,
                 },
-                url: `${process.env.REACT_APP_devUrl}/bookings?uid=${currentUser?.uid}`,
+                url: `${process.env.REACT_APP_devUrl}/users`,
             }),
     });
+    const { currentUser } = useAuth();
+
+    const handleAdmin = (uid) => {
+        axios({
+            method: 'PUT',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`,
+            },
+            url: `${process.env.REACT_APP_devUrl}/users/admin/${uid}?uid=${currentUser.uid}`,
+            data: { role: 'admin' },
+        }).then((res) => {
+            if (res.data.modifiedCount === 1) {
+                refetch();
+            }
+        });
+    };
 
     if (isLoading) {
         return (
@@ -50,13 +69,10 @@ function MyAppointments() {
                             User name
                         </th>
                         <th scope="col" className="py-3 px-6">
-                            Treatment
+                            Email
                         </th>
                         <th scope="col" className="py-3 px-6">
-                            Date
-                        </th>
-                        <th scope="col" className="py-3 px-6">
-                            Time
+                            Position
                         </th>
                         <th scope="col" className="py-3 px-6">
                             Action
@@ -64,8 +80,8 @@ function MyAppointments() {
                     </tr>
                 </thead>
                 <tbody>
-                    {bookingData?.data?.map((booking) => (
-                        <AppointmentRow key={booking._id} booking={booking} />
+                    {users?.data?.map((user) => (
+                        <UserRow key={user._id} user={user} handleAdmin={handleAdmin} />
                     ))}
                 </tbody>
             </table>
@@ -73,4 +89,4 @@ function MyAppointments() {
     );
 }
 
-export default MyAppointments;
+export default UsersPanel;
